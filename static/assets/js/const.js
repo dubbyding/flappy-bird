@@ -26,11 +26,12 @@ const flappyBird = {
 		height: '24px',
 	},
 };
+const flappyBirdInitialPosition = { top: '256px', left: '20px' };
 
 // Frames
-const FRAMES = 12;
+const FRAMES_BIRD = 12;
 const SECOND = 1000;
-const FPS = SECOND / FRAMES;
+const FPS_BIRD = SECOND / FRAMES_BIRD;
 
 // Background Set
 const backgroundDetails = {
@@ -42,4 +43,35 @@ const backgroundDetails = {
 	id: 'background',
 };
 
-export { ROOT_ID, GAME_ASSETS, flappyBird, FPS, backgroundDetails };
+// Pipes Set
+const pipeDetails = {
+	0: {
+		top: '-646px',
+		left: '-168px',
+		width: '52px',
+		height: '320px',
+	},
+	1: {
+		top: '-646px',
+		left: '-112px',
+		width: '52px',
+		height: '320px',
+	},
+};
+
+// Pipe Speed
+const pipeSpeed = -2;
+const gameFrames = 60;
+const relativeFPS = SECOND / gameFrames;
+
+export {
+	ROOT_ID,
+	GAME_ASSETS,
+	flappyBird,
+	FPS_BIRD,
+	backgroundDetails,
+	flappyBirdInitialPosition,
+	pipeDetails,
+	pipeSpeed,
+	relativeFPS,
+};

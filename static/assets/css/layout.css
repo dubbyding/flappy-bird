@@ -1,5 +1,15 @@
+.container {
+	display: flex;
+	position: relative;
+	justify-content: center;
+	height: 512px;
+	width: 100%;
+}
 #root {
 	position: relative;
+	overflow: hidden;
+	height: 100%;
+	width: 100%;
 }
 .slidingAnimation {
 	transition: 0.2s ease;

@@ -1,9 +1,10 @@
 class Bird {
-	constructor(root, sprite, birdPosition, fps) {
+	constructor(root, sprite, birdPosition, fps, initialPos) {
 		this.root = root;
 		this.sprite = sprite;
 		this.birdPosition = birdPosition;
 		this.fps = fps;
+		this.initialPos = initialPos;
 
 		this.flappyAnimationInterval = this.flappingAnimation();
 	}
@@ -17,6 +18,8 @@ class Bird {
 		this.sprite.style.width = this.birdPosition[animationCounter].width;
 		this.sprite.style.height = this.birdPosition[animationCounter].height;
 		this.sprite.id = 'bird';
+		this.sprite.style.top = this.initialPos.top;
+		this.sprite.style.left = this.initialPos.left;
 
 		this.root.appendChild(this.sprite);
 
@@ -25,7 +28,8 @@ class Bird {
 
 	/**
      *  This is the function that is responsible for the animation of the bird. It is called in the
-    constructor. 
+    constructor.
+    * @returns interval Function to later clear
     */
 	flappingAnimation = () => {
 		let animationCounter = 1;
