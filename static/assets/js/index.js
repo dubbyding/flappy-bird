@@ -187,7 +187,7 @@ class FlappyBird {
 					if (e.code == 'Space') spaceStatus = 1;
 					upStatus = 0;
 				});
-				document.addEventListener('mousedown', () => {
+				document.addEventListener('touchstart', () => {
 					spaceStatus = 1;
 					upStatus = 0;
 				});
