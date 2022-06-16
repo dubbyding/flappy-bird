@@ -102,17 +102,6 @@ class PlayArea {
 
 		return document.getElementById(`${id}-top`);
 	};
-
-	setScore = (assets) => {
-		assets.style.backgroundPosition = `-276px -646px`;
-		assets.style.width = '12px';
-		assets.style.height = '14px';
-		assets.style.top = '50px';
-		assets.style.left = '230px';
-		assets.style.zIndex = '1';
-
-		this.root.appendChild(assets);
-	};
 }
 
 export { PlayArea };

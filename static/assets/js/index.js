@@ -33,8 +33,6 @@ class FlappyBird {
 		});
 		let detailsPipe = this.playableArea.getBoundingClientRect();
 
-		this.playArea.setScore(this.assets.cloneNode(true));
-
 		this.bird = new Bird(
 			this.root,
 			this.assets.cloneNode(true),
@@ -42,6 +40,8 @@ class FlappyBird {
 			FPS_BIRD,
 			{ ...flappyBirdInitialPosition }
 		);
+
+		this.scoreSet(relativeFPS);
 
 		this.movePipes(
 			3,
@@ -168,7 +168,7 @@ class FlappyBird {
 
 				if (!spaceStatus) {
 					velocity += gravity;
-					if (velocity > 5) velocity = 5;
+					if (velocity > 10) velocity = 10;
 					birdTop += velocity;
 
 					birdElement.style.top = `${birdTop}px`;
@@ -189,7 +189,7 @@ class FlappyBird {
 					this.bird.clearFlappyAnimation();
 				}
 				velocity += gravity;
-				if (velocity > 5) velocity = 5;
+				if (velocity > 10) velocity = 10;
 				birdTop += velocity;
 
 				birdElement.style.top = `${birdTop}px`;
@@ -222,6 +222,34 @@ class FlappyBird {
 					clearInterval(collisionInterval);
 					this.bird.clearFlappyAnimation();
 				}
+			}
+		}, FPS);
+	};
+
+	scoreSet = (FPS) => {
+		let score = document.createElement('div');
+
+		score.style.position = 'absolute';
+		score.style.top = '50px';
+		score.style.left = '230px';
+		score.style.zIndex = 1;
+		score.style.fontSize = '20px';
+		score.style.color = 'white';
+
+		score.id = 'score';
+
+		this.root.appendChild(score);
+
+		score = document.getElementById('score');
+		let scoreInterval = setInterval(() => {
+			if (this.gameStatus) {
+				let currentScore = parseInt(
+					document.getElementsByClassName('pipes')[0].id
+				);
+				console.log(currentScore);
+				score.innerHTML = currentScore;
+			} else {
+				clearInterval(scoreInterval);
 			}
 		}, FPS);
 	};
