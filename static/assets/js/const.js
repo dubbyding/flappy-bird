@@ -57,6 +57,7 @@ const pipeDetails = {
 		width: '52px',
 		height: '320px',
 	},
+	className: 'pipes',
 };
 
 // Pipe Speed

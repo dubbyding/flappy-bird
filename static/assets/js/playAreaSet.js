@@ -76,7 +76,10 @@ class PlayArea {
 		assets.style.height = details[0].height;
 		assets.style.top = details.bottom;
 		assets.style.left = `${details.xPosition}px`;
+
+		assets.classList.add(details.className);
 		assets.id = `${id}-bottom`;
+
 		this.root.appendChild(assets);
 
 		return document.getElementById(`${id}-bottom`);
@@ -91,7 +94,10 @@ class PlayArea {
 		assets.style.height = details[1].height;
 		assets.style.bottom = details.top;
 		assets.style.left = `${details.xPosition}px`;
+
+		assets.classList.add(details.className);
 		assets.id = `${id}-top`;
+
 		this.root.appendChild(assets);
 
 		return document.getElementById(`${id}-top`);
