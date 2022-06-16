@@ -11,22 +11,38 @@ import {
 	pipeSpeed,
 	relativeFPS,
 } from './const.js';
-import { spaceEventListener } from './utils.js';
 
 class FlappyBird {
 	constructor() {
-		this.playArea = new PlayArea(ROOT_ID, GAME_ASSETS, pipeDetails);
-
-		this.gameStatus = 1;
 		this.loadAssets();
 	}
 	/**
 	 *  This function loads all the required sprite and then actually plays the game
 	 */
 	loadAssets = async () => {
+		this.playArea = new PlayArea(ROOT_ID, GAME_ASSETS, pipeDetails);
 		this.root = this.playArea.root;
 
 		this.assets = await this.playArea.assetsImporting();
+
+		this.startMenu();
+	};
+
+	startMenu = () => {
+		this.root.innerHTML = '';
+		this.playableArea = this.playArea.playAreaSet(this.assets.cloneNode(true), {
+			...backgroundDetails,
+		});
+
+		this.playArea.startMenu(this.assets.cloneNode(true));
+
+		document.addEventListener('keypress', this.startGame);
+	};
+
+	startGame = () => {
+		this.gameStatus = 1;
+		document.removeEventListener('keypress', this.startGame);
+		this.root.innerHTML = '';
 
 		this.playableArea = this.playArea.playAreaSet(this.assets.cloneNode(true), {
 			...backgroundDetails,
@@ -55,6 +71,17 @@ class FlappyBird {
 		this.birdMove(relativeFPS);
 
 		this.collisionDetection(relativeFPS);
+	};
+
+	endGame = (highScore, currentScore) => {
+		this.root.innerHTML = '';
+		this.playableArea = this.playArea.playAreaSet(this.assets.cloneNode(true), {
+			...backgroundDetails,
+		});
+		this.playArea.endMenu(highScore, currentScore);
+
+		this.gameStatus = 1;
+		document.addEventListener('keypress', this.startGame);
 	};
 
 	/**
@@ -161,9 +188,16 @@ class FlappyBird {
 				});
 
 				if (boundaryBottom <= birdTop + birdBoundary.height) {
+					let currentScore = parseInt(
+						document.getElementsByClassName('pipes')[0].id
+					);
+					let highScore = this.getHighScore(currentScore);
+
 					this.gameStatus = 0;
 					clearInterval(flyInterval);
 					this.bird.clearFlappyAnimation();
+
+					this.endGame(highScore, currentScore);
 				}
 
 				if (!spaceStatus) {
@@ -185,8 +219,15 @@ class FlappyBird {
 				}
 			} else {
 				if (boundaryBottom <= birdTop + birdBoundary.height) {
+					let currentScore = parseInt(
+						document.getElementsByClassName('pipes')[0].id
+					);
+					let highScore = this.getHighScore(currentScore);
+
 					clearInterval(flyInterval);
 					this.bird.clearFlappyAnimation();
+
+					this.endGame(highScore, currentScore);
 				}
 				velocity += gravity;
 				if (velocity > 10) velocity = 10;
@@ -206,22 +247,35 @@ class FlappyBird {
 		const birdElement = this.bird.birdElement;
 
 		let collisionInterval = setInterval(() => {
-			const pipes = document.getElementsByClassName(pipesClassName);
-			const pipesElements = [pipes[0], pipes[1]];
-			for (let i in pipesElements) {
-				let birdBoundary = birdElement.getBoundingClientRect();
-				let pipeBoundary = pipesElements[i].getBoundingClientRect();
+			if (this.gameStatus) {
+				const pipes = document.getElementsByClassName(pipesClassName);
+				const pipesElements = [pipes[0], pipes[1]];
+				for (let i in pipesElements) {
+					try {
+						let birdBoundary = birdElement.getBoundingClientRect();
+						let pipeBoundary = pipesElements[i].getBoundingClientRect();
+						if (
+							birdBoundary.bottom > pipeBoundary.top &&
+							birdBoundary.top < pipeBoundary.bottom &&
+							birdBoundary.right > pipeBoundary.left &&
+							birdBoundary.left < pipeBoundary.right
+						) {
+							this.gameStatus = 0;
+							clearInterval(collisionInterval);
+							this.bird.clearFlappyAnimation();
+						}
+					} catch (e) {
+						this.gameStatus = 0;
 
-				if (
-					birdBoundary.bottom > pipeBoundary.top &&
-					birdBoundary.top < pipeBoundary.bottom &&
-					birdBoundary.right > pipeBoundary.left &&
-					birdBoundary.left < pipeBoundary.right
-				) {
-					this.gameStatus = 0;
-					clearInterval(collisionInterval);
-					this.bird.clearFlappyAnimation();
+						clearInterval(collisionInterval);
+						this.bird.clearFlappyAnimation();
+
+						break;
+					}
 				}
+			} else {
+				clearInterval(collisionInterval);
+				this.bird.clearFlappyAnimation();
 			}
 		}, FPS);
 	};
@@ -246,12 +300,24 @@ class FlappyBird {
 				let currentScore = parseInt(
 					document.getElementsByClassName('pipes')[0].id
 				);
-				console.log(currentScore);
 				score.innerHTML = currentScore;
 			} else {
 				clearInterval(scoreInterval);
 			}
 		}, FPS);
+	};
+	getHighScore = (currentScore) => {
+		let currentHighScore = localStorage.getItem('highScore');
+
+		if (currentHighScore) {
+			if (currentScore > currentHighScore) {
+				currentHighScore = currentScore;
+			}
+		} else {
+			currentHighScore = 0;
+		}
+		localStorage.setItem('highScore', currentHighScore);
+		return currentHighScore;
 	};
 }
 

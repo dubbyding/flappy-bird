@@ -102,6 +102,61 @@ class PlayArea {
 
 		return document.getElementById(`${id}-top`);
 	};
+
+	startMenu = (assets) => {
+		let div = document.createElement('div');
+		div.style.position = 'absolute';
+		div.style.padding = '20px';
+		div.style.top = '25%';
+		div.style.transform = 'translate(0,-50%)';
+		div.style.left = '130px';
+
+		let logo = assets.cloneNode(true);
+		let start = assets.cloneNode(true);
+
+		logo.style.backgroundPosition = '-702px -182px';
+		logo.style.width = '178px';
+		logo.style.height = '48px';
+
+		start.style.backgroundPosition = '-584px -182px';
+		start.style.width = '114px';
+		start.style.height = '98px';
+		start.style.top = '90px';
+
+		div.appendChild(logo);
+		div.appendChild(start);
+
+		this.root.appendChild(div);
+	};
+
+	endMenu = (currentHighScore, currentActualScore) => {
+		const div = document.createElement('div');
+
+		div.style.position = 'absolute';
+		div.style.padding = '20px';
+		div.style.top = '25%';
+		div.style.color = 'white';
+		div.style.textAlign = 'center';
+		div.style.left = '100px';
+
+		const highScoreH1 = document.createElement('h1');
+		highScoreH1.innerHTML = 'HighScore';
+		const highScore = document.createElement('p');
+		highScore.innerHTML = currentHighScore;
+
+		div.appendChild(highScoreH1);
+		div.appendChild(highScore);
+
+		const currentScoreH1 = document.createElement('h1');
+		currentScoreH1.innerHTML = 'Current Score';
+		const currentScore = document.createElement('p');
+		currentScore.innerHTML = currentActualScore;
+
+		div.appendChild(currentScoreH1);
+		div.appendChild(currentScore);
+
+		this.root.appendChild(div);
+	};
 }
 
 export { PlayArea };
