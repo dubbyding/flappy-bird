@@ -8,4 +8,9 @@ const randomNumberGenerator = (min, max) => {
 	return Math.floor(Math.random() * (max - min)) + min;
 };
 
-export { randomNumberGenerator };
+const spaceEventListener = (e) => {
+	if (e.code == 'Space') spaceStatus = 1;
+	upStatus = 0;
+};
+
+export { randomNumberGenerator, spaceEventListener };

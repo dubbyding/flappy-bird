@@ -65,6 +65,25 @@ const pipeSpeed = -2;
 const gameFrames = 60;
 const relativeFPS = SECOND / gameFrames;
 
+//score location
+const scoreDetails = {
+	0: {
+		left: '-276px ',
+		top: '-646px',
+		width: '12px',
+		height: '14px',
+	},
+	1: { left: '-282px  ', top: '-664px', width: '6px', height: '14px' },
+	2: { left: '-276px ', top: '-698px', width: '12px', height: '14px' },
+	3: { left: '-276px ', top: '-716px', width: '12px', height: '14px' },
+	4: { left: '-276px ', top: '-750px', width: '12px', height: '14px' },
+	5: { left: '-276px ', top: '-768px', width: '12px', height: '14px' },
+	6: { left: '-276px ', top: '-802px', width: '12px', height: '14px' },
+	7: { left: '-276px ', top: '-820px', width: '12px', height: '14px' },
+	8: { left: '-276px ', top: '-854px', width: '12px', height: '14px' },
+	9: { left: '-276px ', top: '-872px', width: '12px', height: '14px' },
+};
+
 export {
 	ROOT_ID,
 	GAME_ASSETS,
@@ -75,4 +94,5 @@ export {
 	pipeDetails,
 	pipeSpeed,
 	relativeFPS,
+	scoreDetails,
 };

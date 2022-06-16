@@ -6,7 +6,10 @@ class Bird {
 		this.fps = fps;
 		this.initialPos = initialPos;
 
-		this.flappyAnimationInterval = this.flappingAnimation();
+		let flapAnimate = this.flappingAnimation();
+
+		this.flappyAnimationInterval = flapAnimate[0];
+		this.birdElement = flapAnimate[1];
 	}
 
 	/**
@@ -45,7 +48,11 @@ class Bird {
 			birdElement.style.backgroundPosition = `${this.birdPosition[animationCounter].left} ${this.birdPosition[animationCounter].top}`;
 		}, this.fps);
 
-		return setFlappyAnimation;
+		return [setFlappyAnimation, birdElement];
+	};
+
+	clearFlappyAnimation = () => {
+		clearInterval(this.flappyAnimationInterval);
 	};
 }
 
