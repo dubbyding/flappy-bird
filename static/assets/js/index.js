@@ -163,6 +163,9 @@ class FlappyBird {
 		const gravity = 0.1;
 		const antiGravity = 2;
 		const toMoveUp = 20;
+		const upperRotate = -45;
+		const lowerRotate = 90;
+		const addingFactor = 5;
 
 		const birdElement = this.bird.birdElement;
 		const birdBoundary = birdElement.getBoundingClientRect();
@@ -171,6 +174,8 @@ class FlappyBird {
 
 		let velocity = 0;
 		let birdTop = birdBoundary.top;
+
+		let angle = 0;
 
 		let spaceStatus = 0;
 		let upStatus = 0;
@@ -206,6 +211,10 @@ class FlappyBird {
 					birdTop += velocity;
 
 					birdElement.style.top = `${birdTop}px`;
+					if (angle < lowerRotate) {
+						angle += addingFactor / 2;
+						birdElement.style.transform = `rotate(${angle}deg)`;
+					}
 				} else {
 					upStatus++;
 
@@ -216,6 +225,11 @@ class FlappyBird {
 					velocity = 0;
 					birdTop -= antiGravity;
 					birdElement.style.top = `${birdTop}px`;
+					if (angle > upperRotate) {
+						console.log('here');
+						angle -= addingFactor;
+						birdElement.style.transform = `rotate(${angle}deg)`;
+					}
 				}
 			} else {
 				if (boundaryBottom <= birdTop + birdBoundary.height) {
